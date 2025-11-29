@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>My Smart Vadodara — Premium Dashboard</title>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="styles.css" />
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Leaflet for map -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css" />
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
+
+  <!-- (Optional) Firebase SDKs if you want to enable Firebase — uncomment and add config in script.js
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+  -->
+</head>
+<body>
+  <div class="app">
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">🌆 My Smart Vadodara <span class="brand-subtitle">Dashboard</span></div>
+      <nav>
+        <a href="#" data-section="dashboard" class="active"><span class="nav-icon">📊</span> Dashboard</a>
+        <a href="#" data-section="analytics"><span class="nav-icon">📈</span> Analytics</a>
+        <a href="#" data-section="map"><span class="nav-icon">🗺️</span> Map</a>
+        <a href="#" data-section="admin"><span class="nav-icon">⚙️</span> Admin Panel</a>
+        <a href="#" data-section="ai"><span class="nav-icon">🤖</span> AI Pane</a>
+        <hr/>
+        <div class="controls">
+          <label class="switch">
+            <input type="checkbox" id="themeToggle">
+            <span class="slider"></span>
+          </label>
+          <small>Dark/Light</small>
+        </div>
+        <button id="openLogin" class="btn small">Login</button>
+      </nav>
+    </aside>
+
+    <!-- Main -->
+    <main class="main">
+      <header class="main-header">
+        <button id="hamburger" class="hamburger">☰</button>
+        <h1 id="pageTitle">Dashboard</h1>
+        <div class="user-area">
+          <span id="userGreeting">Guest</span>
+        </div>
+      </header>
+
+      <!-- Sections -->
+      <section id="dashboard" class="section active">
+        <div class="kpi-row">
+          <div class="kpi-card">
+            <h4>Population</h4><div id="kpi-pop" class="kpi-value">120,000+</div>
+          </div>
+          <div class="kpi-card">
+            <h4>Energy Usage</h4><div id="kpi-energy" class="kpi-value">78%</div>
+          </div>
+          <div class="kpi-card">
+            <h4>Air Quality (AQI)</h4><div id="kpi-aqi" class="kpi-value">62</div>
+          </div>
+          <div class="kpi-card">
+            <h4>Sensors Online</h4><div id="kpi-sensors" class="kpi-value">8</div>
+          </div>
+        </div>
+
+        <div class="panels">
+          <div class="panel">
+            <h3>Traffic Trend</h3>
+            <canvas id="chartLine"></canvas>
+          </div>
+
+          <div class="panel">
+            <h3>Energy Distribution</h3>
+            <canvas id="chartPie"></canvas>
+          </div>
+        </div>
+
+        <div class="panels">
+          <div class="panel">
+            <h3>Sensor Counts (Bar)</h3>
+            <canvas id="chartBar"></canvas>
+          </div>
+          <div class="panel">
+            <h3>City Health (Radar)</h3>
+            <canvas id="chartRadar"></canvas>
+          </div>
+        </div>
+      </section>
+
+      <section id="analytics" class="section">
+        <div class="panel">
+          <h2>Smart Analytics</h2>
+          <div id="analyticsText" class="analytics-text">Realtime insights will appear here.</div>
+          <button id="runAnalysis" class="btn">Run Quick Analysis</button>
+        </div>
+      </section>
+
+      <section id="map" class="section">
+        <h2>Map — Sensor Locations</h2>
+        <div id="mapContainer"></div>
+      </section>
+
+      <section id="admin" class="section">
+        <h2>Admin Panel</h2>
+        <div class="admin-grid">
+          <div class="panel">
+            <h3>Live Sensors</h3>
+            <div id="sensorList" class="sensor-list"></div>
+            <div class="controls-row">
+              <button id="toggleLive" class="btn small">Toggle Live Updates</button>
+              <button id="pushFirebase" class="btn small">(Optional) Push to Firebase</button>
+            </div>
+          </div>
+
+          <div class="panel">
+            <h3>Database / API Example</h3>
+            <p>Firebase and MongoDB examples are included in <code>script.js</code> as templates. Add your config / endpoints to enable.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="ai" class="section">
+        <h2>AI Pane</h2>
+        <div class="panel">
+          <label>Simple Prompt (simulate):</label>
+          <textarea id="aiPrompt" rows="3" placeholder="Analyze traffic and suggest optimizations..."></textarea>
+          <div class="controls-row">
+            <button id="aiRun" class="btn">Analyze (simulate)</button>
+          </div>
+          <div id="aiOutput" class="ai-output">AI suggestions will appear here (simulated).</div>
+        </div>
+      </section>
+
+      <footer class="main-footer">
+        © My Smart Vadodara • Local Demo
+      </footer>
+    </main>
+  </div> 
+
+  <!-- Login Modal -->
+  <div id="loginModal" class="modal">
+    <div class="modal-content">
+      <h3>Login</h3>
+      <form id="loginForm">
+        <label>Username</label>
+        <input type="text" id="username" required />
+        <label>Password</label>
+        <input type="password" id="password" required />
+        <div class="modal-actions">
+          <button type="submit" class="btn">Login</button>
+          <button type="button" id="closeLogin" class="btn alt">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="script.js"></script>
+</body>
+</html>
