@@ -90,6 +90,7 @@ smartcity-dashboard/
     ├── app.js
     ├── package.json
     └── README.md
+<img width="1920" height="1140" alt="image" src="https://github.com/user-attachments/assets/4fd1ada0-4f9b-4c07-9a86-c4a87a900f8e" />
 
 🚀 Installation & Setup
 📌 1. Clone the Repository
