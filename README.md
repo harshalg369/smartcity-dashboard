@@ -167,7 +167,4 @@ Deploy
 Harshal Ghuge 
 Smart City Dashboard Developer
 
-📜 License
-
-This project is licensed under the MIT License.
 
